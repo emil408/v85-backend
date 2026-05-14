@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO: uppdateras dynamiskt via JS -->
+  <title>V85 Tips idag — Emil Berglund andelar på ATG</title>
+  <meta name="description" content="Gratis V85-tips och Emil Berglunds andelar på ATG Högkvarteret. Startlista, odds och systemspel varje lördag.">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:    #0b0f18;
+      --bg2:   #111c11;
+      --bg3:   #182e18;
+      --green: #b8f060;
+      --muted: #4a7a3a;
+      --dim:   #3a5a3a;
+      --text:  #eeeae0;
+      --gray:  #6a8a7a;
+      --brd:   #1a2e1a;
+      --warn:  #f0a030;
+      --err:   #f06060;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--green); }
+
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.75rem; border-bottom: 1px solid var(--brd); }
+    .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--green); letter-spacing: 0.06em; }
+    .logo span { color: #fff; }
+    .nav-cta { background: var(--green); color: #071000; font-weight: 600; font-size: 0.8rem; padding: 8px 18px; border-radius: 6px; text-decoration: none; }
+
+    .hero { padding: 2.5rem 1.75rem 1.75rem; border-bottom: 1px solid var(--brd); }
+    .pill { display: inline-block; background: var(--bg3); color: var(--green); font-size: 0.68rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; line-height: 1.05; color: #fff; margin-bottom: 0.6rem; }
+    h1 em { color: var(--green); font-style: normal; }
+    .hero p { font-size: 0.95rem; color: var(--gray); max-width: 520px; }
+    .live { display: flex; align-items: center; gap: 7px; margin-top: 1rem; font-size: 0.78rem; color: var(--muted); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    section { padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--brd); }
+    .lbl { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--dim); margin-bottom: 0.85rem; }
+
+    /* Andels-kort */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card { background: var(--bg2); border: 1px solid var(--brd); border-radius: 8px; padding: 0.9rem 1rem; position: relative; }
+    .card.featured { border-color: var(--green); }
+    .badge { position: absolute; top: 8px; right: 8px; background: var(--green); color: #071000; font-size: 0.6rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
+    .card-name { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
+    .card-meta { font-size: 0.73rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .price { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--green); }
+    .price span { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+    .btn { display: block; margin-top: 0.65rem; background: var(--green); color: #071000; font-weight: 600; font-size: 0.78rem; padding: 8px 0; border-radius: 5px; text-align: center; text-decoration: none; }
+    .btn.ghost { background: transparent; border: 1px solid #2a4a2a; color: var(--green); }
+
+    /* Startlista */
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; }
+    .tab { background: var(--bg2); border: 1px solid var(--brd); border-radius: 6px; padding: 5px 13px; font-size: 0.73rem; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: 0.1s; }
+    .tab.active { background: var(--bg3); border-color: var(--green); color: var(--green); }
+    .avd { display: none; }
+    .avd.active { display: block; }
+    .row { display: flex; align-items: center; gap: 10px; padding: 0.55rem 0; border-bottom: 1px solid #122012; }
+    .row:last-child { border-bottom: none; }
+    .nr { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; color: var(--green); min-width: 24px; }
+    .horse { font-size: 0.88rem; font-weight: 500; }
+    .driver { font-size: 0.73rem; color: var(--muted); }
+    .pct-spik { font-size: 0.68rem; background: var(--green); color: #071000; padding: 2px 8px; border-radius: 10px; margin-left: auto; font-weight: 600; white-space: nowrap; }
+    .pct { font-size: 0.68rem; background: var(--bg3); color: var(--green); padding: 2px 8px; border-radius: 10px; margin-left: auto; white-space: nowrap; }
+
+    /* Status */
+    .status { border: 1px solid var(--brd); border-radius: 8px; padding: 0.85rem 1rem; font-size: 0.82rem; background: var(--bg2); }
+    .status.ok   { border-color: var(--green); color: var(--green); }
+    .status.warn { border-color: var(--warn);  color: var(--warn); }
+    .status.err  { border-color: var(--err);   color: var(--err); }
+    .note { font-size: 0.78rem; color: var(--dim); margin-top: 0.65rem; line-height: 1.55; }
+
+    /* SEO-text */
+    .seo { background: #0d150d; border: 1px solid var(--brd); border-radius: 8px; padding: 1rem 1.1rem; margin-top: 1rem; }
+    .seo h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: #fff; margin-bottom: 0.4rem; }
+    .seo p { font-size: 0.83rem; color: var(--gray); line-height: 1.6; }
+
+    /* FAQ */
+    details { border-bottom: 1px solid var(--brd); padding: 0.85rem 0; }
+    summary { font-weight: 500; font-size: 0.9rem; color: #d0e8c0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+    summary::after { content: '+'; color: var(--muted); }
+    details[open] summary::after { content: '−'; }
+    .faq-ans { font-size: 0.83rem; color: var(--gray); margin-top: 0.5rem; line-height: 1.6; }
+
+    footer { padding: 1.25rem 1.75rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 0.72rem; color: var(--dim); }
+    footer a { color: var(--dim); text-decoration: none; }
+
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--brd); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 480px) { .cards { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">V85<span>-tips</span></div>
+  <a class="nav-cta" href="https://www.atg.se/hogkvarteret" target="_blank" rel="sponsored">Köp Emil-andel →</a>
+</nav>
+
+<header class="hero">
+  <div class="pill">Emil Berglund · Högkvarteret · ATG</div>
+  <h1>V85 tips lördag<br><em id="h-bana">—</em></h1>
+  <p id="h-sub">Hämtar veckans startlista...</p>
+  <div class="live"><div class="dot"></div><span id="h-live">Ansluter till ATG...</span></div>
+</header>
+
+<section>
+  <p class="lbl">Datakälla</p>
+  <div class="status" id="status"><span class="spinner"></span> Hämtar ATG-data...</div>
+  <p class="note" id="note" style="display:none"></p>
+</section>
+
+<section>
+  <p class="lbl">Emil Berglunds andelar — köp direkt på ATG Högkvarteret</p>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="lopp-sec" style="display:none">
+  <p class="lbl" id="lopp-lbl">Startlista</p>
+  <div class="tabs" id="tabs"></div>
+  <div id="avds"></div>
+  <div class="seo" id="seo-box">
+    <h2 id="seo-h2"></h2>
+    <p id="seo-p"></p>
+  </div>
+</section>
+
+<section>
+  <p class="lbl">Vanliga frågor</p>
+  <details><summary>Vad är en V85-andel?</summary><p class="faq-ans">Du köper en del av ett större spelsystem ihop med andra spelare och delar på kostnaden och eventuell vinst. Perfekt för att spela stora system billigt.</p></details>
+  <details><summary>Hur hittar jag Emil Berglunds andelar?</summary><p class="faq-ans">Gå till ATG Högkvarteret och sök på Emil Berglund, eller klicka direkt på knapparna ovan — de tar dig direkt till rätt sida.</p></details>
+  <details><summary>Vad är V85 och hur fungerar det?</summary><p class="faq-ans">V85 ersatte V75 i oktober 2025. Du ska pricka vinnaren i åtta lopp. Du kan vinna på 5, 6, 7 eller 8 rätt. En enkelrad kostar 50 öre.</p></details>
+  <details><summary>Skillnad V85 och V75?</summary><p class="faq-ans">V85 har åtta avdelningar mot V75:s sju. Fler vinststeg (5–8 rätt) ger fler vinnare och generellt större pott. Jackpot rullar vidare om ingen får 8 rätt.</p></details>
+  <details><summary>Kostar det något att använda V85-tips.se?</summary><p class="faq-ans">Nej, sajten är helt gratis. Vi länkare vidare till ATG Högkvarteret där köpet sker.</p></details>
+</section>
+
+<footer>
+  <span>© 2026 V85-tips · Spela ansvarsfullt · 18+ · stödlinjen.se</span>
+  <div style="display:flex;gap:14px"><a href="#">Om oss</a><a href="#">Integritetspolicy</a><a href="#">Kontakt</a></div>
+</footer>
+
+<script>
+  // ← Sätt din backend-URL här efter deploy
+  const API = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000/api/v85'
+    : 'https://DIN-APP.vercel.app/api/v85';   // ← byt ut
+
+  const SEO_INFO = {
+    'Solvalla':   'Solvalla är Nordens största travarena. Emils system hit är alltid välbesökta.',
+    'Åby':        'Åby utanför Göteborg huserar ofta storlöpp. Emil väljer ofta djärva system hit.',
+    'Jägersro':   'Jägersro i Malmö är Sveriges äldsta travbana. Emil har lång erfarenhet av banan.',
+    'Bergsåker':  'Bergsåker har 200m upplopp — Emil väljer hästar med starka avslutningar.',
+    'Halmstad':   'Halmstadtravet är en populär bana. Emils system är ofta lite offensiva hit.',
+    'Örebro':     'Örebrotravet är känt för jämna fält. Emil tippar välbalanserade system.',
+    'Umeå':       'Umåker i Umeå — Emils norrlandssystem har historiskt presterat starkt.',
+  };
+
+  function setStatus(cls, html) {
+    const el = document.getElementById('status');
+    el.className = 'status ' + cls;
+    el.innerHTML = html;
+  }
+
+  function renderCards(track, datStr) {
+    document.getElementById('cards').innerHTML = `
+      <div class="card featured">
+        <div class="badge">Populär</div>
+        <div class="card-name">StorSystem 2048 rader</div>
+        <div class="card-meta">V85 · ${track} ${datStr}</div>
+        <div class="price">99 <span>kr/andel</span></div>
+        <a class="btn" href="https://www.atg.se/hogkvarteret" target="_blank" rel="sponsored">Köp på ATG →</a>
+      </div>
+      <div class="card">
+        <div class="card-name">MellanSystem 512 rader</div>
+        <div class="card-meta">V85 · ${track} ${datStr}</div>
+        <div class="price">49 <span>kr/andel</span></div>
+        <a class="btn ghost" href="https://www.atg.se/hogkvarteret" target="_blank" rel="sponsored">Köp på ATG →</a>
+      </div>
+      <div class="card">
+        <div class="card-name">MiniSystem 64 rader</div>
+        <div class="card-meta">V85 · ${track} ${datStr}</div>
+        <div class="price">25 <span>kr/andel</span></div>
+        <a class="btn ghost" href="https://www.atg.se/hogkvarteret" target="_blank" rel="sponsored">Köp på ATG →</a>
+      </div>
+      <div class="card">
+        <div class="card-name">Gardsystem · Säker</div>
+        <div class="card-meta">V85 · ${track} ${datStr}</div>
+        <div class="price">35 <span>kr/andel</span></div>
+        <a class="btn ghost" href="https://www.atg.se/hogkvarteret" target="_blank" rel="sponsored">Köp på ATG →</a>
+      </div>`;
+  }
+
+  function renderRaces(races, track) {
+    const tabs = document.getElementById('tabs');
+    const avds = document.getElementById('avds');
+    tabs.innerHTML = '';
+    avds.innerHTML = '';
+
+    races.forEach((race, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'tab' + (i === 0 ? ' active' : '');
+      btn.textContent = `Avd ${race.number}`;
+      btn.onclick = () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.avd').forEach(a => a.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('avd-' + i).classList.add('active');
+      };
+      tabs.appendChild(btn);
+
+      const maxPct = Math.max(0, ...race.starters.map(s => s.percent || 0));
+      const div = document.createElement('div');
+      div.className = 'avd' + (i === 0 ? ' active' : '');
+      div.id = 'avd-' + i;
+      div.innerHTML = race.starters
+        .filter(s => !s.scratched)
+        .map(s => {
+          const isSpik = s.percent && s.percent === maxPct && s.percent > 20;
+          const pctEl = s.percent
+            ? isSpik
+              ? `<div class="pct-spik">Spik ${Math.round(s.percent)}%</div>`
+              : `<div class="pct">${Math.round(s.percent)}%</div>`
+            : '';
+          return `<div class="row">
+            <div class="nr">${s.number}</div>
+            <div>
+              <div class="horse">${s.horse}</div>
+              ${s.driver ? `<div class="driver">${s.driver}</div>` : ''}
+            </div>
+            ${pctEl}
+          </div>`;
+        }).join('');
+      avds.appendChild(div);
+    });
+
+    document.getElementById('lopp-sec').style.display = 'block';
+
+    const seoTxt = SEO_INFO[track] || `Emil Berglunds V85-system till ${track} — hämtat live från ATG.`;
+    document.getElementById('seo-h2').textContent = `V85 tips ${track} — startlista & Emil Berglunds system`;
+    document.getElementById('seo-p').textContent  = seoTxt + ` Söker du gratis V85-tips till ${track} denna lördag? Här hittar du Emils system och kan köpa andel direkt via ATG Högkvarteret.`;
+  }
+
+  async function load() {
+    try {
+      const res  = await fetch(API);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+
+      const d    = new Date(data.date);
+      const datStr = d.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' });
+      const track  = data.track || 'ATG';
+
+      // SEO-titel
+      document.title = `V85 tips ${track} ${datStr} — Emil Berglund andelar ATG`;
+
+      document.getElementById('h-bana').textContent = `${track} ${datStr}`;
+      document.getElementById('h-sub').textContent  = `Verklig startlista från ATG. Emil Berglunds system till ${track} — köp andel direkt.`;
+      document.getElementById('h-live').textContent = `Live-data från ATG · ${track} · Spelstopp ${data.startTime}`;
+      document.getElementById('lopp-lbl').textContent = `Startlista — V85 ${track} ${datStr}`;
+
+      renderCards(track, datStr);
+
+      if (data.races && data.races.length > 0) {
+        setStatus('ok', `✓ Startlista hämtad · ${track} · ${data.races.length} avdelningar · ${data.source}`);
+        renderRaces(data.races, track);
+      } else {
+        setStatus('warn', `⚠ Bana hittad (${track}) — startlista ännu ej publicerad av ATG`);
+        document.getElementById('note').style.display = 'block';
+        document.getElementById('note').textContent   = 'ATG publicerar startlistan vanligtvis onsdag–torsdag. Sidan uppdateras automatiskt.';
+      }
+
+    } catch (err) {
+      setStatus('err', `✗ Kunde inte nå backend: ${err.message}`);
+      document.getElementById('note').style.display = 'block';
+      document.getElementById('note').textContent   = 'Kontrollera att backend-servern körs och att API-URL:en stämmer i index.html.';
+      renderCards('ATG', 'denna lördag');
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>
