@@ -10,7 +10,10 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.static('public'));
-
+const path = require('path');
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 // -----------------------------------------------------------------------
 // Riktiga spelläggare på ATG Högkvarteret (källa: travnet.se / ATG)
 // Uppdatera listan om ATG lägger till/tar bort spelläggare
